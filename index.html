@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📖 1 & 2 Timothy Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #3f87a6, #ebf8e1, #f69d3c);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #quiz-card {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 750px;
+      width: 95%;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      animation: fadeIn 0.6s ease;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 0;
+      color: #333;
+      font-weight: 600;
+      font-size: 28px;
+    }
+    #progress-container {
+      width: 100%;
+      height: 12px;
+      background: #e6e6e6;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    #progress {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+      transition: width 0.4s ease-in-out;
+    }
+    #question {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .choice {
+      background: #f1f1f1;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 20px;
+      margin: 8px 0;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      text-align: left;
+      transition: 0.25s;
+    }
+    .choice:hover {
+      background: #e0e9ff;
+      transform: translateX(5px);
+    }
+    .correct {
+      background: #c8f7c5 !important;
+      border-left: 6px solid #28a745;
+    }
+    .incorrect {
+      background: #f7c5c5 !important;
+      border-left: 6px solid #dc3545;
+    }
+    #next-btn {
+      display: none;
+      margin-top: 20px;
+      background: linear-gradient(90deg, #2575fc, #6a11cb);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    #next-btn:hover {
+      opacity: 0.9;
+      transform: scale(1.03);
+    }
+    #score {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 600;
+      margin-top: 25px;
+    }
+    @keyframes fadeIn {
+      from {opacity:0; transform: translateY(20px);}
+      to {opacity:1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <div id="quiz-card">
+    <h1>📖 1 & 2 Timothy Quiz</h1>
+    <div id="progress-container"><div id="progress"></div></div>
+    <div id="question"></div>
+    <div id="choices"></div>
+    <button id="next-btn">Next ➡</button>
+    <div id="score"></div>
+  </div>
+
+  <script>
+    const quizData = [
+  // ====================
+  // TRUE/FALSE (30)
+  // ====================
+  { question: "Paul calls Timothy his 'true son in the faith.' (1 Tim 1:2)", choices: ["True","False"], answer: "True" },
+  { question: "Paul left Timothy in Corinth to deal with false teachers. (1 Tim 1:3)", choices: ["True","False"], answer: "False" },
+  { question: "Christ Jesus came into the world to save sinners – of whom I am the worst. (1 Tim 1:15)", choices: ["True","False"], answer: "True" },
+  { question: "The law is made not for the righteous but for the lawbreakers and rebels. (1 Tim 1:9)", choices: ["True","False"], answer: "True" },
+  { question: "Paul urges prayers for kings and all in authority. (1 Tim 2:1-2)", choices: ["True","False"], answer: "True" },
+  { question: "Women should dress modestly, with decency and propriety. (1 Tim 2:9)", choices: ["True","False"], answer: "True" },
+  { question: "An overseer must be the husband of one wife, temperate, self‑controlled, hospitable, able to teach. (1 Tim 3:2)", choices: ["True","False"], answer: "True" },
+  { question: "Deacons must be double‑tongued and lovers of money. (1 Tim 3:8)", choices: ["True","False"], answer: "False" },
+  { question: "The church of the living God is the pillar and foundation of the truth. (1 Tim 3:15)", choices: ["True","False"], answer: "True" },
+  { question: "The Spirit says that some will abandon the faith and follow deceiving spirits. (1 Tim 4:1)", choices: ["True","False"], answer: "True" },
+  { question: "Train yourself to be godly. (1 Tim 4:7)", choices: ["True","False"], answer: "True" },
+  { question: "Do not neglect your gift. (1 Tim 4:14)", choices: ["True","False"], answer: "True" },
+  { question: "Elders who lead well are worthy of double honor. (1 Tim 5:17)", choices: ["True","False"], answer: "True" },
+  { question: "The love of money is a root of some evils. (1 Tim 6:10)", choices: ["True","False"], answer: "False" },
+  { question: "Fight the good fight of faith. (1 Tim 6:12)", choices: ["True","False"], answer: "True" },
+  { question: "Paul was appointed as preacher, apostle, and teacher of the Gentiles. (2 Tim 1:11)", choices: ["True","False"], answer: "True" },
+  { question: "God has given us a spirit of fear, not power. (2 Tim 1:7)", choices: ["True","False"], answer: "False" },
+  { question: "Endure hardship like a good soldier of Christ. (2 Tim 2:3)", choices: ["True","False"], answer: "True" },
+  { question: "The Lord knows those who are his. (2 Tim 2:19)", choices: ["True","False"], answer: "True" },
+  { question: "In the last days there will be terrible times. (2 Tim 3:1)", choices: ["True","False"], answer: "True" },
+  { question: "People will be lovers of themselves, lovers of money, boastful, proud… (2 Tim 3:2)", choices: ["True","False"], answer: "True" },
+  { question: "All Scripture is God‑breathed and useful. (2 Tim 3:16)", choices: ["True","False"], answer: "True" },
+  { question: "I have run the good fight and fought the true race. (2 Tim 4:7)", choices: ["True","False"], answer: "False" },
+  { question: "Demas, loving this world, deserted Paul for Thessalonica. (2 Tim 4:10)", choices: ["True","False"], answer: "True" },
+  { question: "Paul told Timothy to bring John Mark because he was helpful. (2 Tim 4:11)", choices: ["True","False"], answer: "True" },
+  { question: "At my first defense, everyone supported me. (2 Tim 4:16)", choices: ["True","False"], answer: "False" },
+  { question: "The Lord will rescue me from every evil attack. (2 Tim 4:18)", choices: ["True","False"], answer: "True" },
+  { question: "Hymenaeus and Alexander shipwrecked their faith. (1 Tim 1:20)", choices: ["True","False"], answer: "True" },
+  { question: "Paul compared those who oppose truth to Jannes and Jambres opposing Noah. (2 Tim 3:8)", choices: ["True","False"], answer: "False" },
+  { question: "Paul looked forward to the crown of righteousness. (2 Tim 4:8)", choices: ["True","False"], answer: "True" },
+
+  // ====================
+  // IDENTIFICATION (30)
+  // ====================
+  { question: "Timothy’s grandmother who had sincere faith. (2 Tim 1:5)", choices: ["Lois","Eunice","Priscilla","Phoebe"], answer: "Lois" },
+  { question: "Timothy’s mother who passed on her faith. (2 Tim 1:5)", choices: ["Eunice","Lois","Chloe","Martha"], answer: "Eunice" },
+  { question: "The city where Timothy stayed to address false teaching. (1 Tim 1:3)", choices: ["Ephesus","Corinth","Rome","Antioch"], answer: "Ephesus" },
+  { question: "Two men handed to Satan for blasphemy. (1 Tim 1:20)", choices: ["Hymenaeus & Alexander","Philetus & Demas","Lois & Eunice","Jannes & Jambres"], answer: "Hymenaeus & Alexander" },
+  { question: "One mediator between God and man. (1 Tim 2:5)", choices: ["Christ Jesus","The High Priest","Moses","Timothy"], answer: "Christ Jesus" },
+  { question: "Role that is a noble task if desired. (1 Tim 3:1)", choices: ["Overseer","Deacon","Teacher","Prophet"], answer: "Overseer" },
+  { question: "Pillar and foundation of truth. (1 Tim 3:15)", choices: ["Church of the living God","Law","Temple","Faith"], answer: "Church of the living God" },
+  { question: "Widows over this age qualify for support. (1 Tim 5:9)", choices: ["60","50","40","70"], answer: "60" },
+  { question: "Young co‑worker told to set example in speech/conduct/love/faith/purity. (1 Tim 4:12)", choices: ["Timothy","John","Titus","Mark"], answer: "Timothy" },
+  { question: "Elders who lead well are worthy of this. (1 Tim 5:17)", choices: ["Double honor","Silver","Respect","Food"], answer: "Double honor" },
+  { question: "Great gain comes with godliness and... (1 Tim 6:6)", choices: ["Contentment","Wealth","Fame","Knowledge"], answer: "Contentment" },
+  { question: "Man who deserted Paul for worldliness. (2 Tim 4:10)", choices: ["Demas","Alexander","Mark","Crescens"], answer: "Demas" },
+  { question: "Man who harmed Paul—'The Lord will repay him.' (2 Tim 4:14)", choices: ["Alexander the metalworker","Jannes","Phygelus","Trophimus"], answer: "Alexander the metalworker" },
+  { question: "Faithful companion whom Paul asked Timothy to bring. (2 Tim 4:11)", choices: ["Mark","Luke","Titus","Silas"], answer: "Mark" },
+  { question: "Greek physician and faithful co‑worker with Paul. (2 Tim 4:11)", choices: ["Luke","Barnabas","Crescens","Silas"], answer: "Luke" },
+  { question: "Character trait of soldiers as illustration. (2 Tim 2:3‑4)", choices: ["Endurance","Gentleness","Wealth","Silence"], answer: "Endurance" },
+  { question: "False teachers whose talk was like gangrene. (2 Tim 2:17)", choices: ["Hymenaeus & Philetus","Demas & Crescens","Alexander & Demetrius","Lois & Eunice"], answer: "Hymenaeus & Philetus" },
+  { question: "Men compared to Jannes and Jambres. (2 Tim 3:8)", choices: ["False teachers","Pharisees","Romans","Corinthians"], answer: "False teachers" },
+  { question: "The sacred writings Timothy knew from childhood. (2 Tim 3:15)", choices: ["Holy Scriptures","Letters","Commandments","Gospels"], answer: "Holy Scriptures" },
+  { question: "Those who deserted Paul in Asia. (2 Tim 1:15)", choices: ["Phygelus & Hermogenes","Demas & Tychicus","Alexander & Hymenaeus","Lois & Eunice"], answer: "Phygelus & Hermogenes" },
+  { question: "The 'crown' Paul expected. (2 Tim 4:8)", choices: ["Crown of righteousness","Crown of life","Golden crown","Heavenly crown"], answer: "Crown of righteousness" },
+  { question: "The woman deceived first. (1 Tim 2:14)", choices: ["Eve","Rachel","Sarah","Leah"], answer: "Eve" },
+  { question: "Requirement 'man of one wife' refers to this role. (1 Tim 3:2)", choices: ["Overseer","Deacon","Levite","Prophet"], answer: "Overseer" },
+  { question: "Pursue righteousness, godliness, faith, love, endurance, and... (1 Tim 6:11)", choices: ["Gentleness","Wisdom","Honor","Strength"], answer: "Gentleness" },
+  { question: "Young helper told to fan into flame his gift. (2 Tim 1:6)", choices: ["Timothy","Titus","Mark","Luke"], answer: "Timothy" },
+  { question: "Man who refreshed Paul and was not ashamed. (2 Tim 1:16)", choices: ["Onesiphorus","Epaphroditus","Tychicus","Barnabas"], answer: "Onesiphorus" },
+  { question: "Man Paul asked Timothy to bring his cloak and books. (2 Tim 4:13)", choices: ["Carpus","Luke","Mark","Crescens"], answer: "Carpus" },
+  { question: "Household greeted at end of 2 Tim. (2 Tim 4:19)", choices: ["Priscilla & Aquila","Lois & Eunice","Nympha & Chloe","Mary & Martha"], answer: "Priscilla & Aquila" },
+  { question: "Destination Timothy was asked to travel to Paul. (2 Tim 4:9,21)", choices: ["Rome","Ephesus","Corinth","Jerusalem"], answer: "Rome" },
+
+  // ====================
+  // TELL THE VERSE (30)
+  // ====================
+  { question: "Which verse? 'Christ Jesus came into the world to save sinners—of whom I am the worst.'", choices: ["1 Tim 1:15","1 Tim 6:12","2 Tim 4:7","2 Tim 3:16"], answer: "1 Tim 1:15" },
+  { question: "Which verse? 'Godliness with contentment is great gain.'", choices: ["1 Tim 6:6","2 Tim 1:7","1 Tim 3:15","2 Tim 4:2"], answer: "1 Tim 6:6" },
+  { question: "Which verse? 'Fight the good fight of the faith. Take hold of eternal life…'", choices: ["1 Tim 6:12","2 Tim 2:12","1 Tim 4:12","2 Tim 4:7"], answer: "1 Tim 6:12" },
+  { question: "Which verse? 'The Spirit clearly says that in later times some will abandon the faith…'", choices: ["1 Tim 4:1","2 Tim 3:1","1 Tim 2:5","2 Tim 1:7"], answer: "1 Tim 4:1" },
+  { question: "Which verse? 'Train yourself to be godly.'", choices: ["1 Tim 4:7","1 Tim 6:10","2 Tim 2:6","2 Tim 3:16"], answer: "1 Tim 4:7" },
+  { question: "Which verse? 'Do not neglect your gift…'", choices: ["1 Tim 4:14","1 Tim 3:15","2 Tim 1:12","2 Tim 2:21"], answer: "1 Tim 4:14" },
+  { question: "Which verse? 'Don’t let anyone look down on you because you are young…'", choices: ["1 Tim 4:12","2 Tim 1:7","1 Tim 6:6","2 Tim 2:12"], answer: "1 Tim 4:12" },
+  { question: "Which verse? 'The church of the living God, the pillar and foundation of the truth.'", choices: ["1 Tim 3:15","1 Tim 2:5","2 Tim 3:14","2 Tim 4:8"], answer: "1 Tim 3:15" },
+  { question: "Which verse? 'The love of money is a root of all kinds of evil.'", choices: ["1 Tim 6:10","2 Tim 2:19","2 Tim 4:7","1 Tim 4:14"], answer: "1 Tim 6:10" },
+  { question: "Which verse? 'There is one God and one mediator between God and man, the man Christ Jesus.'", choices: ["1 Tim 2:5","2 Tim 1:7","1 Tim 4:12","2 Tim 3:16"], answer: "1 Tim 2:5" },
+  { question: "Which verse? 'I know whom I have believed and am convinced…'", choices: ["2 Tim 1:12","1 Tim 6:6","2 Tim 3:14","2 Tim 4:2"], answer: "2 Tim 1:12" },
+  { question: "Which verse? 'Fan into flame the gift of God, which is in you…'", choices: ["2 Tim 1:6","2 Tim 2:19","1 Tim 4:14","1 Tim 6:12"], answer: "2 Tim 1:6" },
+  { question: "Which verse? 'Endure hardship with us like a good soldier of Christ Jesus.'", choices: ["2 Tim 2:3","2 Tim 4:7","1 Tim 3:2","1 Tim 6:12"], answer: "2 Tim 2:3" },
+  { question: "Which verse? 'The hardworking farmer should be the first to receive a share of the crops.'", choices: ["2 Tim 2:6","1 Tim 2:9","1 Tim 6:10","2 Tim 4:8"], answer: "2 Tim 2:6" },
+  { question: "Which verse? 'God’s solid foundation stands firm, sealed with this inscription: The Lord knows those who are his.'", choices: ["2 Tim 2:19","1 Tim 3:15","2 Tim 3:14","1 Tim 4:7"], answer: "2 Tim 2:19" },
+  { question: "Which verse? 'All who want to live a godly life in Christ Jesus will be persecuted.'", choices: ["2 Tim 3:12","1 Tim 6:6","2 Tim 3:1","1 Tim 4:7"], answer: "2 Tim 3:12" },
+  { question: "Which verse? 'All Scripture is God‑breathed and useful…'", choices: ["2 Tim 3:16","1 Tim 2:9","1 Tim 6:6","2 Tim 4:7"], answer: "2 Tim 3:16" },
+  { question: "Which verse? 'But as for you, continue in what you have learned…'", choices: ["2 Tim 3:14","1 Tim 3:15","1 Tim 4:12","2 Tim 4:2"], answer: "2 Tim 3:14" },
+  { question: "Which verse? 'I have fought the good fight, I have finished the race, I have kept the faith.'", choices: ["2 Tim 4:7","1 Tim 6:12","2 Tim 1:7","1 Tim 4:12"], answer: "2 Tim 4:7" },
+  { question: "Which verse? 'The Lord will rescue me from every evil attack…'", choices: ["2 Tim 4:18","2 Tim 1:7","2 Tim 2:19","1 Tim 6:10"], answer: "2 Tim 4:18" },
+  { question: "Which verse? 'Preach the word; be prepared in season and out of season…'", choices: ["2 Tim 4:2","1 Tim 3:15","2 Tim 2:19","1 Tim 4:12"], answer: "2 Tim 4:2" },
+  { question: "Which verse? 'Mark this: There will be terrible times in the last days.'", choices: ["2 Tim 3:1","2 Tim 1:6","1 Tim 4:1","1 Tim 6:6"], answer: "2 Tim 3:1" },
+  { question: "Which verse? 'Everyone who confesses the name of the Lord must turn away from wickedness.'", choices: ["2 Tim 2:19","1 Tim 4:12","2 Tim 3:12","1 Tim 6:11"], answer: "2 Tim 2:19" },
+  { question: "Which verse? 'Join with me in suffering for the gospel, by the power of God.'", choices: ["2 Tim 1:8","1 Tim 4:14","2 Tim 2:3","1 Tim 3:15"], answer: "2 Tim 1:8" },
+  { question: "Which verse? 'If we endure, we will also reign with him. If we disown him…'", choices: ["2 Tim 2:12","1 Tim 6:12","1 Tim 4:14","2 Tim 3:12"], answer: "2 Tim 2:12" },
+  { question: "Which verse? 'Those who cleanse themselves… will be instruments for special purposes.'", choices: ["2 Tim 2:21","1 Tim 6:10","2 Tim 1:6","1 Tim 3:2"], answer: "2 Tim 2:21" },
+  { question: "Which verse? 'Evil men and impostors will go from bad to worse…'", choices: ["2 Tim 3:13","1 Tim 2:14","2 Tim 2:6","1 Tim 4:14"], answer: "2 Tim 3:13" },
+  { question: "Which verse? 'In the presence of God and of Christ Jesus… I give you this charge: Preach the word.'", choices: ["2 Tim 4:1-2","1 Tim 6:12","2 Tim 1:7","1 Tim 3:15"], answer: "2 Tim 4:1-2" }
+];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const choicesEl = document.getElementById("choices");
+    const nextBtn = document.getElementById("next-btn");
+    const scoreEl = document.getElementById("score");
+    const progressEl = document.getElementById("progress");
+
+    function loadQuestion() {
+      resetState();
+      let current = quizData[currentQuestionIndex];
+      questionEl.textContent = current.question;
+      current.choices.forEach(c => {
+        const button = document.createElement("button");
+        button.textContent = c;
+        button.classList.add("choice");
+        button.addEventListener("click", () => selectAnswer(button, current.answer));
+        choicesEl.appendChild(button);
+      });
+      updateProgress();
+    }
+
+    function resetState() {
+      nextBtn.style.display = "none";
+      while (choicesEl.firstChild) choicesEl.removeChild(choicesEl.firstChild);
+    }
+
+    function selectAnswer(button, correct) {
+      const chosen = button.textContent;
+      const choiceButtons = document.querySelectorAll(".choice");
+      choiceButtons.forEach(btn => {
+        btn.disabled = true;
+        if (btn.textContent === correct) {
+          btn.classList.add("correct");
+        } else if (btn.textContent === chosen) {
+          btn.classList.add("incorrect");
+        }
+      });
+      if (chosen === correct) score++;
+      nextBtn.style.display = "block";
+    }
+
+    function updateProgress() {
+      let percent = ((currentQuestionIndex) / quizData.length) * 100;
+      progressEl.style.width = `${percent}%`;
+    }
+
+    function showScore() {
+      resetState();
+      questionEl.textContent = "🎉 Quiz Completed!";
+      nextBtn.style.display = "none";
+      progressEl.style.width = "100%";
+      scoreEl.innerHTML = `Your Score: <span style="color:#2575fc;">${score}</span> / ${quizData.length}`;
+    }
+
+    nextBtn.addEventListener("click", () => {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < quizData.length) {
+        loadQuestion();
+      } else {
+        showScore();
+      }
+    });
+
+    // Randomize at start
+    quizData.sort(() => Math.random()-0.5);
+    loadQuestion();
+  </script>
+</body>
+</html>
