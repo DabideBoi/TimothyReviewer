@@ -219,7 +219,9 @@
       resetState();
       let current = quizData[currentQuestionIndex];
       questionEl.textContent = current.question;
-      current.choices.forEach(c => {
+      let shuffledChoices = [...current.choices].sort(() => Math.random() - 0.5);
+      
+      shuffledChoices.forEach(c => {
         const button = document.createElement("button");
         button.textContent = c;
         button.classList.add("choice");
