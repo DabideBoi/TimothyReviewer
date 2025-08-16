@@ -5,101 +5,157 @@
   <title>📖 1 & 2 Timothy Quiz</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #3f87a6, #ebf8e1, #f69d3c);
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* === General Layout === */
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #3f87a6, #ebf8e1, #f69d3c);
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Quiz Card */
+  #quiz-card {
+    background: #fff;
+    border-radius: 12px;
+    max-width: 750px;
+    width: 95%;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    animation: fadeIn 0.6s ease;
+    box-sizing: border-box;
+  }
+  
+  /* Title */
+  h1 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: 600;
+    font-size: 28px;
+  }
+  
+  /* Progress bar container */
+  #progress-container {
+    width: 100%;
+    height: 12px;
+    background: #e6e6e6;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+  /* Progress bar */
+  #progress {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+    transition: width 0.4s ease-in-out;
+  }
+  
+  /* Question text */
+  #question {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #333;
+    word-wrap: break-word;
+    line-height: 1.4;
+  }
+  
+  /* Answer choices */
+  .choice {
+    background: #f1f1f1;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin: 8px 0;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    text-align: left;
+    transition: 0.25s;
+    min-height: 50px; /* touch-friendly */
+    word-wrap: break-word;
+  }
+  
+  .choice:hover {
+    background: #e0e9ff;
+    transform: translateX(5px);
+  }
+  
+  /* Correct / Incorrect states */
+  .correct {
+    background: #c8f7c5 !important;
+    border-left: 6px solid #28a745;
+  }
+  .incorrect {
+    background: #f7c5c5 !important;
+    border-left: 6px solid #dc3545;
+  }
+  
+  /* Next button */
+  #next-btn {
+    display: none;
+    margin-top: 20px;
+    background: linear-gradient(90deg, #2575fc, #6a11cb);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  #next-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.03);
+  }
+  
+  /* Score display */
+  #score {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 25px;
+  }
+  
+  /* Simple fade animation for the card */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* ======================
+     📱 Mobile responsive tweaks
+     ====================== */
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 20px;
     }
     #quiz-card {
-      background: #fff;
-      border-radius: 12px;
-      max-width: 750px;
-      width: 95%;
-      padding: 30px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      animation: fadeIn 0.6s ease;
-    }
-    h1 {
-      text-align: center;
-      margin-top: 0;
-      color: #333;
-      font-weight: 600;
-      font-size: 28px;
-    }
-    #progress-container {
-      width: 100%;
-      height: 12px;
-      background: #e6e6e6;
-      border-radius: 6px;
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-    #progress {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-      transition: width 0.4s ease-in-out;
+      padding: 20px;
     }
     #question {
-      font-size: 20px;
-      margin-bottom: 20px;
-      color: #333;
+      font-size: 16px;
     }
     .choice {
-      background: #f1f1f1;
-      border: none;
-      border-radius: 8px;
-      padding: 14px 20px;
-      margin: 8px 0;
-      cursor: pointer;
-      font-size: 16px;
-      width: 100%;
-      text-align: left;
-      transition: 0.25s;
-    }
-    .choice:hover {
-      background: #e0e9ff;
-      transform: translateX(5px);
-    }
-    .correct {
-      background: #c8f7c5 !important;
-      border-left: 6px solid #28a745;
-    }
-    .incorrect {
-      background: #f7c5c5 !important;
-      border-left: 6px solid #dc3545;
+      font-size: 14px;
+      padding: 12px;
+      min-height: 50px; /* keeps good tap size */
     }
     #next-btn {
-      display: none;
-      margin-top: 20px;
-      background: linear-gradient(90deg, #2575fc, #6a11cb);
-      color: white;
-      padding: 12px 25px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    #next-btn:hover {
-      opacity: 0.9;
-      transform: scale(1.03);
+      font-size: 14px;
+      padding: 10px 18px;
     }
     #score {
-      text-align: center;
-      font-size: 20px;
-      font-weight: 600;
-      margin-top: 25px;
+      font-size: 18px;
     }
-    @keyframes fadeIn {
-      from {opacity:0; transform: translateY(20px);}
-      to {opacity:1; transform: translateY(0);}
-    }
+  }
   </style>
 </head>
 <body>
